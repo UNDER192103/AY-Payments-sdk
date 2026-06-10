@@ -78,7 +78,7 @@ export class AYPaymentsClient {
                 this.options.onError(apiError);
             if (this.options.debug)
                 console.error("[AY Payments SDK] error", apiError);
-            throw apiError;
+            return apiError.payload;
         }
     }
     toApiError(error) {
@@ -157,7 +157,7 @@ export class AYPaymentsClient {
             create: (projectIdOrExternalId, payload) => this.post(`/projects/${projectIdOrExternalId}/products`, payload),
             createGlobal: (payload) => this.post("/products", { ...payload, subtotal: payload.value }),
             update: (projectIdOrExternalId, productId, payload) => this.put(`/projects/${projectIdOrExternalId}/products/${productId}`, payload),
-            updateGlobal: (productId, payload) => this.put(`/products/${productId}`, payload.value === undefined ? payload : { ...payload, subtotal: payload.value }),
+            updateGlobal: (productId, payload) => this.put(`/products/${productId}`, "value" in payload && payload.value !== undefined ? { ...payload, subtotal: payload.value } : payload),
             delete: (projectIdOrExternalId, productId) => this.delete(`/projects/${projectIdOrExternalId}/products/${productId}`),
             deleteGlobal: (productId) => this.delete(`/products/${productId}`),
         },

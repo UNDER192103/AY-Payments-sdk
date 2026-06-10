@@ -4,12 +4,17 @@ import type {
   AyPaymentsAdmin,
   AyPaymentsAdminsResponse,
   AyPaymentsApiErrorPayload,
+  AyPaymentsApiResult,
   AyPaymentsApiKeyResponse,
   AyPaymentsApiKeysResponse,
+  AyPaymentsAuthAdminResponse,
+  AyPaymentsAuthCustomerResponse,
+  AyPaymentsAuthTenantResponse,
   AyPaymentsCalculateCheckoutPayload,
   AyPaymentsCheckoutCalculationResponse,
   AyPaymentsCheckoutPayload,
   AyPaymentsClientOptions,
+  AyPaymentsConnectionResponse,
   AyPaymentsCreateAdminPayload,
   AyPaymentsCreateApiKeyPayload,
   AyPaymentsCreateApiKeyResponse,
@@ -31,15 +36,18 @@ import type {
   AyPaymentsOAuthResponse,
   AyPaymentsOrderResponse,
   AyPaymentsOrdersResponse,
+  AyPaymentsOverviewResponse,
   AyPaymentsPaginationQuery,
   AyPaymentsPlatformCommissionResponse,
   AyPaymentsProductResponse,
   AyPaymentsProductsResponse,
   AyPaymentsProfileOrdersResponse,
   AyPaymentsProjectCommissionResponse,
+  AyPaymentsProjectAccountsResponse,
   AyPaymentsProjectListResponse,
   AyPaymentsProjectResponse,
   AyPaymentsQuery,
+  AyPaymentsTenant,
   AyPaymentsTenantRegisterPayload,
   AyPaymentsTenantsResponse,
   AyPaymentsUpdateCommissionPayload,
@@ -126,7 +134,7 @@ export class AYPaymentsClient {
     }
   }
 
-  private async request<T>(config: AxiosRequestConfig): Promise<T> {
+  private async request<T>(config: AxiosRequestConfig): Promise<AyPaymentsApiResult<T>> {
     try {
       const response = await this.api.request<T>(config);
       return response.data;
@@ -134,7 +142,7 @@ export class AYPaymentsClient {
       const apiError = this.toApiError(error);
       if (this.options.onError) this.options.onError(apiError);
       if (this.options.debug) console.error("[AY Payments SDK] error", apiError);
-      throw apiError;
+      return apiError.payload;
     }
   }
 
@@ -167,27 +175,27 @@ export class AYPaymentsClient {
     auth: {
       admin: {
         me: () => this.get<{ admin: AyPaymentsAdmin }>("/auth/admin"),
-        login: (payload: AyPaymentsLoginPayload) => this.post("/auth/admin", payload),
+        login: (payload: AyPaymentsLoginPayload) => this.post<AyPaymentsAuthAdminResponse>("/auth/admin", payload),
         logout: () => this.post<AyPaymentsDeleteResponse>("/auth/admin/logout"),
-        updateProfile: (payload: { fullName: string }) => this.put("/auth/admin/profile", payload),
+        updateProfile: (payload: { fullName: string }) => this.put<{ admin: AyPaymentsAdmin }>("/auth/admin/profile", payload),
         changePassword: (payload: { currentPassword: string; newPassword: string; confirmPassword: string }) =>
-          this.post("/auth/admin/change-password", payload),
+          this.post<{ admin: AyPaymentsAdmin }>("/auth/admin/change-password", payload),
       },
       tenant: {
-        me: () => this.get("/auth/tenant"),
-        login: (payload: AyPaymentsLoginPayload) => this.post("/auth/tenant", payload),
+        me: () => this.get<{ tenant: AyPaymentsTenant }>("/auth/tenant"),
+        login: (payload: AyPaymentsLoginPayload) => this.post<AyPaymentsAuthTenantResponse>("/auth/tenant", payload),
         logout: () => this.post<AyPaymentsDeleteResponse>("/auth/tenant/logout"),
-        register: (payload: AyPaymentsTenantRegisterPayload) => this.post("/tenant/register", payload),
+        register: (payload: AyPaymentsTenantRegisterPayload) => this.post<AyPaymentsAuthTenantResponse>("/tenant/register", payload),
         updateProfile: (payload: { name?: string; fullName?: string; metadata?: Record<string, unknown> }) =>
-          this.put("/auth/tenant/profile", payload),
+          this.put<{ tenant: AyPaymentsTenant }>("/auth/tenant/profile", payload),
         changePassword: (payload: { currentPassword: string; newPassword: string; confirmPassword: string }) =>
-          this.post("/auth/tenant/change-password", payload),
+          this.post<{ tenant: AyPaymentsTenant }>("/auth/tenant/change-password", payload),
       },
       customer: {
-        me: () => this.get("/client/auth"),
-        login: (payload: AyPaymentsLoginPayload) => this.post("/client/auth", payload),
+        me: () => this.get<AyPaymentsAuthCustomerResponse>("/client/auth"),
+        login: (payload: AyPaymentsLoginPayload) => this.post<AyPaymentsAuthCustomerResponse>("/client/auth", payload),
         logout: () => this.post<AyPaymentsDeleteResponse>("/client/logout"),
-        register: (payload: AyPaymentsCustomerRegisterPayload) => this.post("/client/register", payload),
+        register: (payload: AyPaymentsCustomerRegisterPayload) => this.post<AyPaymentsAuthCustomerResponse>("/client/register", payload),
         resetPassword: (email: string) => this.post<{ message: string }>("/reset-password", { email }),
       },
     },
@@ -223,11 +231,11 @@ export class AYPaymentsClient {
       accounts: {
         oauth: (payload: AyPaymentsOAuthPayload) => this.post<AyPaymentsOAuthResponse>("/projects/accounts/oauth", payload),
         list: (projectIdOrExternalId: string) =>
-          this.get<{ accounts: unknown[] }>(`/projects/${projectIdOrExternalId}/accounts`),
+          this.get<AyPaymentsProjectAccountsResponse>(`/projects/${projectIdOrExternalId}/accounts`),
         create: (projectIdOrExternalId: string, payload: AyPaymentsCreateConnectionPayload) =>
-          this.post(`/projects/${projectIdOrExternalId}/accounts`, payload),
+          this.post<AyPaymentsConnectionResponse>(`/projects/${projectIdOrExternalId}/accounts`, payload),
         update: (projectIdOrExternalId: string, connectionId: string, payload: AyPaymentsUpdateConnectionPayload) =>
-          this.put(`/projects/${projectIdOrExternalId}/accounts/${connectionId}`, payload),
+          this.put<AyPaymentsConnectionResponse>(`/projects/${projectIdOrExternalId}/accounts/${connectionId}`, payload),
         delete: (projectIdOrExternalId: string, connectionId: string) =>
           this.delete<AyPaymentsProjectResponse>(`/projects/${projectIdOrExternalId}/accounts/${connectionId}`),
       },
@@ -251,7 +259,7 @@ export class AYPaymentsClient {
       updateGlobal: (productId: string, payload: AyPaymentsUpdateProductPayload & { projectId?: string }) =>
         this.put<AyPaymentsProductResponse>(
           `/products/${productId}`,
-          payload.value === undefined ? payload : { ...payload, subtotal: payload.value },
+          "value" in payload && payload.value !== undefined ? { ...payload, subtotal: payload.value } : payload,
         ),
       delete: (projectIdOrExternalId: string, productId: string) =>
         this.delete<AyPaymentsDeleteResponse>(`/projects/${projectIdOrExternalId}/products/${productId}`),
@@ -300,7 +308,7 @@ export class AYPaymentsClient {
     merchants: {
       list: (pagination?: AyPaymentsPaginationQuery) =>
         this.get<AyPaymentsTenantsResponse>("/tenants", { params: pagination }),
-      create: (payload: AyPaymentsCreateTenantPayload) => this.post("/tenants", payload),
+      create: (payload: AyPaymentsCreateTenantPayload) => this.post<{ tenant: AyPaymentsTenant }>("/tenants", payload),
       delete: (tenantId: string, options?: { cascade?: boolean }) =>
         this.delete<AyPaymentsDeleteResponse>(`/tenants/${tenantId}`, { params: { cascade: options?.cascade } }),
     },
@@ -308,7 +316,7 @@ export class AYPaymentsClient {
     tenants: {
       list: (pagination?: AyPaymentsPaginationQuery) =>
         this.get<AyPaymentsTenantsResponse>("/tenants", { params: pagination }),
-      create: (payload: AyPaymentsCreateTenantPayload) => this.post("/tenants", payload),
+      create: (payload: AyPaymentsCreateTenantPayload) => this.post<{ tenant: AyPaymentsTenant }>("/tenants", payload),
       delete: (tenantId: string, options?: { cascade?: boolean }) =>
         this.delete<AyPaymentsDeleteResponse>(`/tenants/${tenantId}`, { params: { cascade: options?.cascade } }),
     },
@@ -331,7 +339,7 @@ export class AYPaymentsClient {
     },
 
     analytics: {
-      overview: () => this.get("/overview"),
+      overview: () => this.get<AyPaymentsOverviewResponse>("/overview"),
     },
 
     logs: {

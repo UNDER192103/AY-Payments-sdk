@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import type { AyPaymentsAdmin, AyPaymentsAdminsResponse, AyPaymentsApiKeyResponse, AyPaymentsApiKeysResponse, AyPaymentsCalculateCheckoutPayload, AyPaymentsCheckoutCalculationResponse, AyPaymentsCheckoutPayload, AyPaymentsClientOptions, AyPaymentsCreateAdminPayload, AyPaymentsCreateApiKeyPayload, AyPaymentsCreateApiKeyResponse, AyPaymentsCreateCheckoutResponse, AyPaymentsCreateConnectionPayload, AyPaymentsCreateCustomerPayload, AyPaymentsCustomerRegisterPayload, AyPaymentsCreateManualOrderPayload, AyPaymentsCreateProductPayload, AyPaymentsCreateProjectPayload, AyPaymentsCreateProjectResponse, AyPaymentsCreateTenantPayload, AyPaymentsCustomerResponse, AyPaymentsCustomersResponse, AyPaymentsDeleteResponse, AyPaymentsLogsResponse, AyPaymentsLoginPayload, AyPaymentsOAuthPayload, AyPaymentsOAuthResponse, AyPaymentsOrderResponse, AyPaymentsOrdersResponse, AyPaymentsPaginationQuery, AyPaymentsPlatformCommissionResponse, AyPaymentsProductResponse, AyPaymentsProductsResponse, AyPaymentsProfileOrdersResponse, AyPaymentsProjectCommissionResponse, AyPaymentsProjectListResponse, AyPaymentsProjectResponse, AyPaymentsQuery, AyPaymentsTenantRegisterPayload, AyPaymentsTenantsResponse, AyPaymentsUpdateCommissionPayload, AyPaymentsUpdateConnectionPayload, AyPaymentsUpdateProductPayload, AyPaymentsUpdateProjectCommissionPayload, AyPaymentsUpdateProjectPayload } from "./types.js";
+import type { AyPaymentsAdmin, AyPaymentsAdminsResponse, AyPaymentsApiResult, AyPaymentsApiKeyResponse, AyPaymentsApiKeysResponse, AyPaymentsAuthAdminResponse, AyPaymentsAuthCustomerResponse, AyPaymentsAuthTenantResponse, AyPaymentsCalculateCheckoutPayload, AyPaymentsCheckoutCalculationResponse, AyPaymentsCheckoutPayload, AyPaymentsClientOptions, AyPaymentsConnectionResponse, AyPaymentsCreateAdminPayload, AyPaymentsCreateApiKeyPayload, AyPaymentsCreateApiKeyResponse, AyPaymentsCreateCheckoutResponse, AyPaymentsCreateConnectionPayload, AyPaymentsCreateCustomerPayload, AyPaymentsCustomerRegisterPayload, AyPaymentsCreateManualOrderPayload, AyPaymentsCreateProductPayload, AyPaymentsCreateProjectPayload, AyPaymentsCreateProjectResponse, AyPaymentsCreateTenantPayload, AyPaymentsCustomerResponse, AyPaymentsCustomersResponse, AyPaymentsDeleteResponse, AyPaymentsLogsResponse, AyPaymentsLoginPayload, AyPaymentsOAuthPayload, AyPaymentsOAuthResponse, AyPaymentsOrderResponse, AyPaymentsOrdersResponse, AyPaymentsOverviewResponse, AyPaymentsPaginationQuery, AyPaymentsPlatformCommissionResponse, AyPaymentsProductResponse, AyPaymentsProductsResponse, AyPaymentsProfileOrdersResponse, AyPaymentsProjectCommissionResponse, AyPaymentsProjectAccountsResponse, AyPaymentsProjectListResponse, AyPaymentsProjectResponse, AyPaymentsQuery, AyPaymentsTenant, AyPaymentsTenantRegisterPayload, AyPaymentsTenantsResponse, AyPaymentsUpdateCommissionPayload, AyPaymentsUpdateConnectionPayload, AyPaymentsUpdateProductPayload, AyPaymentsUpdateProjectCommissionPayload, AyPaymentsUpdateProjectPayload } from "./types.js";
 export declare class AYPaymentsClient {
     readonly api: AxiosInstance;
     readonly axios: AxiosInstance;
@@ -8,337 +8,361 @@ export declare class AYPaymentsClient {
     constructor(options?: AyPaymentsClientOptions);
     private request;
     private toApiError;
-    raw: <T = unknown>(config: AxiosRequestConfig) => Promise<T>;
-    get: <T = unknown>(url: string, config?: AxiosRequestConfig) => Promise<T>;
-    post: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<T>;
-    put: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<T>;
-    patch: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<T>;
-    delete: <T = unknown>(url: string, config?: AxiosRequestConfig) => Promise<T>;
+    raw: <T = unknown>(config: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
+    get: <T = unknown>(url: string, config?: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
+    post: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
+    put: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
+    patch: <T = unknown>(url: string, data?: unknown, config?: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
+    delete: <T = unknown>(url: string, config?: AxiosRequestConfig) => Promise<AyPaymentsApiResult<T>>;
     v1: {
         auth: {
             admin: {
-                me: () => Promise<{
+                me: () => Promise<AyPaymentsApiResult<{
                     admin: AyPaymentsAdmin;
-                }>;
-                login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-                logout: () => Promise<AyPaymentsDeleteResponse>;
+                }>>;
+                login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthAdminResponse>>;
+                logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
                 updateProfile: (payload: {
                     fullName: string;
-                }) => Promise<unknown>;
+                }) => Promise<AyPaymentsApiResult<{
+                    admin: AyPaymentsAdmin;
+                }>>;
                 changePassword: (payload: {
                     currentPassword: string;
                     newPassword: string;
                     confirmPassword: string;
-                }) => Promise<unknown>;
+                }) => Promise<AyPaymentsApiResult<{
+                    admin: AyPaymentsAdmin;
+                }>>;
             };
             tenant: {
-                me: () => Promise<unknown>;
-                login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-                logout: () => Promise<AyPaymentsDeleteResponse>;
-                register: (payload: AyPaymentsTenantRegisterPayload) => Promise<unknown>;
+                me: () => Promise<AyPaymentsApiResult<{
+                    tenant: AyPaymentsTenant;
+                }>>;
+                login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthTenantResponse>>;
+                logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+                register: (payload: AyPaymentsTenantRegisterPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthTenantResponse>>;
                 updateProfile: (payload: {
                     name?: string;
                     fullName?: string;
                     metadata?: Record<string, unknown>;
-                }) => Promise<unknown>;
+                }) => Promise<AyPaymentsApiResult<{
+                    tenant: AyPaymentsTenant;
+                }>>;
                 changePassword: (payload: {
                     currentPassword: string;
                     newPassword: string;
                     confirmPassword: string;
-                }) => Promise<unknown>;
+                }) => Promise<AyPaymentsApiResult<{
+                    tenant: AyPaymentsTenant;
+                }>>;
             };
             customer: {
-                me: () => Promise<unknown>;
-                login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-                logout: () => Promise<AyPaymentsDeleteResponse>;
-                register: (payload: AyPaymentsCustomerRegisterPayload) => Promise<unknown>;
-                resetPassword: (email: string) => Promise<{
+                me: () => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+                login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+                logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+                register: (payload: AyPaymentsCustomerRegisterPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+                resetPassword: (email: string) => Promise<AyPaymentsApiResult<{
                     message: string;
-                }>;
+                }>>;
             };
         };
         profile: {
-            orders: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProfileOrdersResponse>;
+            orders: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProfileOrdersResponse>>;
             update: (payload: {
                 fullName: string;
                 bio?: string;
                 website?: string;
                 location?: string;
-            }) => Promise<{
+            }) => Promise<AyPaymentsApiResult<{
                 message: string;
-            }>;
+            }>>;
             changePassword: (payload: {
                 oldPassword: string;
                 newPassword: string;
-            }) => Promise<{
+            }) => Promise<AyPaymentsApiResult<{
                 message: string;
-            }>;
-            deleteAccount: () => Promise<AyPaymentsDeleteResponse>;
+            }>>;
+            deleteAccount: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         projects: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProjectListResponse>;
-            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProjectListResponse>;
-            get: (projectIdOrExternalId: string) => Promise<AyPaymentsProjectResponse>;
-            create: (payload: AyPaymentsCreateProjectPayload) => Promise<AyPaymentsCreateProjectResponse>;
-            update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectPayload) => Promise<AyPaymentsProjectResponse>;
-            delete: (projectIdOrExternalId: string) => Promise<AyPaymentsDeleteResponse>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProjectListResponse>>;
+            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProjectListResponse>>;
+            get: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
+            create: (payload: AyPaymentsCreateProjectPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateProjectResponse>>;
+            update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectPayload) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
+            delete: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
             commission: {
-                get: (projectIdOrExternalId: string) => Promise<AyPaymentsProjectCommissionResponse>;
-                update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectCommissionPayload) => Promise<AyPaymentsProjectResponse>;
+                get: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectCommissionResponse>>;
+                update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectCommissionPayload) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
             };
             accounts: {
-                oauth: (payload: AyPaymentsOAuthPayload) => Promise<AyPaymentsOAuthResponse>;
-                list: (projectIdOrExternalId: string) => Promise<{
-                    accounts: unknown[];
-                }>;
-                create: (projectIdOrExternalId: string, payload: AyPaymentsCreateConnectionPayload) => Promise<unknown>;
-                update: (projectIdOrExternalId: string, connectionId: string, payload: AyPaymentsUpdateConnectionPayload) => Promise<unknown>;
-                delete: (projectIdOrExternalId: string, connectionId: string) => Promise<AyPaymentsProjectResponse>;
+                oauth: (payload: AyPaymentsOAuthPayload) => Promise<AyPaymentsApiResult<AyPaymentsOAuthResponse>>;
+                list: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectAccountsResponse>>;
+                create: (projectIdOrExternalId: string, payload: AyPaymentsCreateConnectionPayload) => Promise<AyPaymentsApiResult<AyPaymentsConnectionResponse>>;
+                update: (projectIdOrExternalId: string, connectionId: string, payload: AyPaymentsUpdateConnectionPayload) => Promise<AyPaymentsApiResult<AyPaymentsConnectionResponse>>;
+                delete: (projectIdOrExternalId: string, connectionId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
             };
         };
         products: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-            listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-            queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-            create: (projectIdOrExternalId: string, payload: AyPaymentsCreateProductPayload) => Promise<AyPaymentsProductResponse>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+            listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+            queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+            create: (projectIdOrExternalId: string, payload: AyPaymentsCreateProductPayload) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
             createGlobal: (payload: AyPaymentsCreateProductPayload & {
                 projectId: string;
-            }) => Promise<AyPaymentsProductResponse>;
-            update: (projectIdOrExternalId: string, productId: string, payload: AyPaymentsUpdateProductPayload) => Promise<AyPaymentsProductResponse>;
+            }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
+            update: (projectIdOrExternalId: string, productId: string, payload: AyPaymentsUpdateProductPayload) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
             updateGlobal: (productId: string, payload: AyPaymentsUpdateProductPayload & {
                 projectId?: string;
-            }) => Promise<AyPaymentsProductResponse>;
-            delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsDeleteResponse>;
-            deleteGlobal: (productId: string) => Promise<AyPaymentsDeleteResponse>;
+            }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
+            delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+            deleteGlobal: (productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         checkouts: {
-            calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsCheckoutCalculationResponse>;
-            create: (payload: AyPaymentsCheckoutPayload) => Promise<AyPaymentsCreateCheckoutResponse>;
+            calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCheckoutCalculationResponse>>;
+            create: (payload: AyPaymentsCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateCheckoutResponse>>;
         };
         orders: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-            listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-            queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-            createManual: (projectIdOrExternalId: string, payload: AyPaymentsCreateManualOrderPayload) => Promise<AyPaymentsOrderResponse & {
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+            listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+            queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+            createManual: (projectIdOrExternalId: string, payload: AyPaymentsCreateManualOrderPayload) => Promise<AyPaymentsApiResult<AyPaymentsOrderResponse & {
                 created: boolean;
                 checkoutUrl?: string;
-            }>;
+            }>>;
         };
         customers: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-            create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsCustomerResponse>;
-            delete: (customerId: string) => Promise<AyPaymentsDeleteResponse>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+            query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+            create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsApiResult<AyPaymentsCustomerResponse>>;
+            delete: (customerId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         admins: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsAdminsResponse>;
-            create: (payload: AyPaymentsCreateAdminPayload) => Promise<{
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsAdminsResponse>>;
+            create: (payload: AyPaymentsCreateAdminPayload) => Promise<AyPaymentsApiResult<{
                 admin: AyPaymentsAdmin;
-            }>;
-            delete: (adminId: string) => Promise<AyPaymentsDeleteResponse>;
+            }>>;
+            delete: (adminId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         merchants: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsTenantsResponse>;
-            create: (payload: AyPaymentsCreateTenantPayload) => Promise<unknown>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsTenantsResponse>>;
+            create: (payload: AyPaymentsCreateTenantPayload) => Promise<AyPaymentsApiResult<{
+                tenant: AyPaymentsTenant;
+            }>>;
             delete: (tenantId: string, options?: {
                 cascade?: boolean;
-            }) => Promise<AyPaymentsDeleteResponse>;
+            }) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         tenants: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsTenantsResponse>;
-            create: (payload: AyPaymentsCreateTenantPayload) => Promise<unknown>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsTenantsResponse>>;
+            create: (payload: AyPaymentsCreateTenantPayload) => Promise<AyPaymentsApiResult<{
+                tenant: AyPaymentsTenant;
+            }>>;
             delete: (tenantId: string, options?: {
                 cascade?: boolean;
-            }) => Promise<AyPaymentsDeleteResponse>;
+            }) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         apiKeys: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiKeysResponse>;
-            create: (payload: AyPaymentsCreateApiKeyPayload) => Promise<AyPaymentsCreateApiKeyResponse>;
-            revoke: (apiKeyId: string) => Promise<AyPaymentsApiKeyResponse>;
-            setStatus: (apiKeyId: string, status: "active" | "revoked") => Promise<AyPaymentsApiKeyResponse>;
-            delete: (apiKeyId: string) => Promise<AyPaymentsDeleteResponse>;
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsApiKeysResponse>>;
+            create: (payload: AyPaymentsCreateApiKeyPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateApiKeyResponse>>;
+            revoke: (apiKeyId: string) => Promise<AyPaymentsApiResult<AyPaymentsApiKeyResponse>>;
+            setStatus: (apiKeyId: string, status: "active" | "revoked") => Promise<AyPaymentsApiResult<AyPaymentsApiKeyResponse>>;
+            delete: (apiKeyId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         commissions: {
-            get: () => Promise<AyPaymentsPlatformCommissionResponse>;
-            update: (payload: AyPaymentsUpdateCommissionPayload) => Promise<AyPaymentsPlatformCommissionResponse>;
+            get: () => Promise<AyPaymentsApiResult<AyPaymentsPlatformCommissionResponse>>;
+            update: (payload: AyPaymentsUpdateCommissionPayload) => Promise<AyPaymentsApiResult<AyPaymentsPlatformCommissionResponse>>;
         };
         analytics: {
-            overview: () => Promise<unknown>;
+            overview: () => Promise<AyPaymentsApiResult<AyPaymentsOverviewResponse>>;
         };
         logs: {
-            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsLogsResponse>;
-            clear: (category: "login" | "general" | "webhook" | "order" | string) => Promise<{
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsLogsResponse>>;
+            clear: (category: "login" | "general" | "webhook" | "order" | string) => Promise<AyPaymentsApiResult<{
                 category: string;
                 deleted: number;
-            }>;
+            }>>;
         };
     };
     auth: {
         admin: {
-            me: () => Promise<{
+            me: () => Promise<AyPaymentsApiResult<{
                 admin: AyPaymentsAdmin;
-            }>;
-            login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-            logout: () => Promise<AyPaymentsDeleteResponse>;
+            }>>;
+            login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthAdminResponse>>;
+            logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
             updateProfile: (payload: {
                 fullName: string;
-            }) => Promise<unknown>;
+            }) => Promise<AyPaymentsApiResult<{
+                admin: AyPaymentsAdmin;
+            }>>;
             changePassword: (payload: {
                 currentPassword: string;
                 newPassword: string;
                 confirmPassword: string;
-            }) => Promise<unknown>;
+            }) => Promise<AyPaymentsApiResult<{
+                admin: AyPaymentsAdmin;
+            }>>;
         };
         tenant: {
-            me: () => Promise<unknown>;
-            login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-            logout: () => Promise<AyPaymentsDeleteResponse>;
-            register: (payload: AyPaymentsTenantRegisterPayload) => Promise<unknown>;
+            me: () => Promise<AyPaymentsApiResult<{
+                tenant: AyPaymentsTenant;
+            }>>;
+            login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthTenantResponse>>;
+            logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+            register: (payload: AyPaymentsTenantRegisterPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthTenantResponse>>;
             updateProfile: (payload: {
                 name?: string;
                 fullName?: string;
                 metadata?: Record<string, unknown>;
-            }) => Promise<unknown>;
+            }) => Promise<AyPaymentsApiResult<{
+                tenant: AyPaymentsTenant;
+            }>>;
             changePassword: (payload: {
                 currentPassword: string;
                 newPassword: string;
                 confirmPassword: string;
-            }) => Promise<unknown>;
+            }) => Promise<AyPaymentsApiResult<{
+                tenant: AyPaymentsTenant;
+            }>>;
         };
         customer: {
-            me: () => Promise<unknown>;
-            login: (payload: AyPaymentsLoginPayload) => Promise<unknown>;
-            logout: () => Promise<AyPaymentsDeleteResponse>;
-            register: (payload: AyPaymentsCustomerRegisterPayload) => Promise<unknown>;
-            resetPassword: (email: string) => Promise<{
+            me: () => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+            login: (payload: AyPaymentsLoginPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+            logout: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+            register: (payload: AyPaymentsCustomerRegisterPayload) => Promise<AyPaymentsApiResult<AyPaymentsAuthCustomerResponse>>;
+            resetPassword: (email: string) => Promise<AyPaymentsApiResult<{
                 message: string;
-            }>;
+            }>>;
         };
     };
     profile: {
-        orders: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProfileOrdersResponse>;
+        orders: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProfileOrdersResponse>>;
         update: (payload: {
             fullName: string;
             bio?: string;
             website?: string;
             location?: string;
-        }) => Promise<{
+        }) => Promise<AyPaymentsApiResult<{
             message: string;
-        }>;
+        }>>;
         changePassword: (payload: {
             oldPassword: string;
             newPassword: string;
-        }) => Promise<{
+        }) => Promise<AyPaymentsApiResult<{
             message: string;
-        }>;
-        deleteAccount: () => Promise<AyPaymentsDeleteResponse>;
+        }>>;
+        deleteAccount: () => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     projects: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProjectListResponse>;
-        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProjectListResponse>;
-        get: (projectIdOrExternalId: string) => Promise<AyPaymentsProjectResponse>;
-        create: (payload: AyPaymentsCreateProjectPayload) => Promise<AyPaymentsCreateProjectResponse>;
-        update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectPayload) => Promise<AyPaymentsProjectResponse>;
-        delete: (projectIdOrExternalId: string) => Promise<AyPaymentsDeleteResponse>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProjectListResponse>>;
+        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProjectListResponse>>;
+        get: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
+        create: (payload: AyPaymentsCreateProjectPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateProjectResponse>>;
+        update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectPayload) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
+        delete: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         commission: {
-            get: (projectIdOrExternalId: string) => Promise<AyPaymentsProjectCommissionResponse>;
-            update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectCommissionPayload) => Promise<AyPaymentsProjectResponse>;
+            get: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectCommissionResponse>>;
+            update: (projectIdOrExternalId: string, payload: AyPaymentsUpdateProjectCommissionPayload) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
         };
         accounts: {
-            oauth: (payload: AyPaymentsOAuthPayload) => Promise<AyPaymentsOAuthResponse>;
-            list: (projectIdOrExternalId: string) => Promise<{
-                accounts: unknown[];
-            }>;
-            create: (projectIdOrExternalId: string, payload: AyPaymentsCreateConnectionPayload) => Promise<unknown>;
-            update: (projectIdOrExternalId: string, connectionId: string, payload: AyPaymentsUpdateConnectionPayload) => Promise<unknown>;
-            delete: (projectIdOrExternalId: string, connectionId: string) => Promise<AyPaymentsProjectResponse>;
+            oauth: (payload: AyPaymentsOAuthPayload) => Promise<AyPaymentsApiResult<AyPaymentsOAuthResponse>>;
+            list: (projectIdOrExternalId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectAccountsResponse>>;
+            create: (projectIdOrExternalId: string, payload: AyPaymentsCreateConnectionPayload) => Promise<AyPaymentsApiResult<AyPaymentsConnectionResponse>>;
+            update: (projectIdOrExternalId: string, connectionId: string, payload: AyPaymentsUpdateConnectionPayload) => Promise<AyPaymentsApiResult<AyPaymentsConnectionResponse>>;
+            delete: (projectIdOrExternalId: string, connectionId: string) => Promise<AyPaymentsApiResult<AyPaymentsProjectResponse>>;
         };
     };
     products: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-        listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-        queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsProductsResponse>;
-        create: (projectIdOrExternalId: string, payload: AyPaymentsCreateProductPayload) => Promise<AyPaymentsProductResponse>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+        listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+        queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsProductsResponse>>;
+        create: (projectIdOrExternalId: string, payload: AyPaymentsCreateProductPayload) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
         createGlobal: (payload: AyPaymentsCreateProductPayload & {
             projectId: string;
-        }) => Promise<AyPaymentsProductResponse>;
-        update: (projectIdOrExternalId: string, productId: string, payload: AyPaymentsUpdateProductPayload) => Promise<AyPaymentsProductResponse>;
+        }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
+        update: (projectIdOrExternalId: string, productId: string, payload: AyPaymentsUpdateProductPayload) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
         updateGlobal: (productId: string, payload: AyPaymentsUpdateProductPayload & {
             projectId?: string;
-        }) => Promise<AyPaymentsProductResponse>;
-        delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsDeleteResponse>;
-        deleteGlobal: (productId: string) => Promise<AyPaymentsDeleteResponse>;
+        }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
+        delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+        deleteGlobal: (productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     checkouts: {
-        calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsCheckoutCalculationResponse>;
-        create: (payload: AyPaymentsCheckoutPayload) => Promise<AyPaymentsCreateCheckoutResponse>;
+        calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCheckoutCalculationResponse>>;
+        create: (payload: AyPaymentsCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateCheckoutResponse>>;
     };
     orders: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-        listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-        queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsOrdersResponse>;
-        createManual: (projectIdOrExternalId: string, payload: AyPaymentsCreateManualOrderPayload) => Promise<AyPaymentsOrderResponse & {
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+        listByProject: (projectIdOrExternalId: string, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+        queryByProject: (projectIdOrExternalId: string, query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsOrdersResponse>>;
+        createManual: (projectIdOrExternalId: string, payload: AyPaymentsCreateManualOrderPayload) => Promise<AyPaymentsApiResult<AyPaymentsOrderResponse & {
             created: boolean;
             checkoutUrl?: string;
-        }>;
+        }>>;
     };
     customers: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-        create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsCustomerResponse>;
-        delete: (customerId: string) => Promise<AyPaymentsDeleteResponse>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+        create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsApiResult<AyPaymentsCustomerResponse>>;
+        delete: (customerId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     clients: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsCustomersResponse>;
-        create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsCustomerResponse>;
-        delete: (customerId: string) => Promise<AyPaymentsDeleteResponse>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+        query: (query: AyPaymentsQuery, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCustomersResponse>>;
+        create: (payload: AyPaymentsCreateCustomerPayload) => Promise<AyPaymentsApiResult<AyPaymentsCustomerResponse>>;
+        delete: (customerId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     admins: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsAdminsResponse>;
-        create: (payload: AyPaymentsCreateAdminPayload) => Promise<{
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsAdminsResponse>>;
+        create: (payload: AyPaymentsCreateAdminPayload) => Promise<AyPaymentsApiResult<{
             admin: AyPaymentsAdmin;
-        }>;
-        delete: (adminId: string) => Promise<AyPaymentsDeleteResponse>;
+        }>>;
+        delete: (adminId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     merchants: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsTenantsResponse>;
-        create: (payload: AyPaymentsCreateTenantPayload) => Promise<unknown>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsTenantsResponse>>;
+        create: (payload: AyPaymentsCreateTenantPayload) => Promise<AyPaymentsApiResult<{
+            tenant: AyPaymentsTenant;
+        }>>;
         delete: (tenantId: string, options?: {
             cascade?: boolean;
-        }) => Promise<AyPaymentsDeleteResponse>;
+        }) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     tenants: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsTenantsResponse>;
-        create: (payload: AyPaymentsCreateTenantPayload) => Promise<unknown>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsTenantsResponse>>;
+        create: (payload: AyPaymentsCreateTenantPayload) => Promise<AyPaymentsApiResult<{
+            tenant: AyPaymentsTenant;
+        }>>;
         delete: (tenantId: string, options?: {
             cascade?: boolean;
-        }) => Promise<AyPaymentsDeleteResponse>;
+        }) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     apiKeys: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiKeysResponse>;
-        create: (payload: AyPaymentsCreateApiKeyPayload) => Promise<AyPaymentsCreateApiKeyResponse>;
-        revoke: (apiKeyId: string) => Promise<AyPaymentsApiKeyResponse>;
-        setStatus: (apiKeyId: string, status: "active" | "revoked") => Promise<AyPaymentsApiKeyResponse>;
-        delete: (apiKeyId: string) => Promise<AyPaymentsDeleteResponse>;
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsApiKeysResponse>>;
+        create: (payload: AyPaymentsCreateApiKeyPayload) => Promise<AyPaymentsApiResult<AyPaymentsCreateApiKeyResponse>>;
+        revoke: (apiKeyId: string) => Promise<AyPaymentsApiResult<AyPaymentsApiKeyResponse>>;
+        setStatus: (apiKeyId: string, status: "active" | "revoked") => Promise<AyPaymentsApiResult<AyPaymentsApiKeyResponse>>;
+        delete: (apiKeyId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     commissions: {
-        get: () => Promise<AyPaymentsPlatformCommissionResponse>;
-        update: (payload: AyPaymentsUpdateCommissionPayload) => Promise<AyPaymentsPlatformCommissionResponse>;
+        get: () => Promise<AyPaymentsApiResult<AyPaymentsPlatformCommissionResponse>>;
+        update: (payload: AyPaymentsUpdateCommissionPayload) => Promise<AyPaymentsApiResult<AyPaymentsPlatformCommissionResponse>>;
     };
     analytics: {
-        overview: () => Promise<unknown>;
+        overview: () => Promise<AyPaymentsApiResult<AyPaymentsOverviewResponse>>;
     };
     logs: {
-        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsLogsResponse>;
-        clear: (category: "login" | "general" | "webhook" | "order" | string) => Promise<{
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsLogsResponse>>;
+        clear: (category: "login" | "general" | "webhook" | "order" | string) => Promise<AyPaymentsApiResult<{
             category: string;
             deleted: number;
-        }>;
+        }>>;
     };
     isAuthenticated(): boolean;
 }
