@@ -1,5 +1,7 @@
 # AY Payments SDK
 
+Documentacao completa: https://aypayments.undernouzen.com.br/docs/
+
 SDK TypeScript/JavaScript para consumir a API do AY Payments.
 
 O pacote não lê `.env`. A autenticação é passada na inicialização. Se você criar o client sem `apiKey`, ele continua funcionando como instância HTTP, mas as rotas protegidas vão depender de sessão/cookie ou retornar erro de autenticação da API.
@@ -7,7 +9,7 @@ O pacote não lê `.env`. A autenticação é passada na inicialização. Se voc
 ## Instalação
 
 ```bash
-npm install @ay-payments/sdk
+npm install @undernouzen/ay-payments-sdk
 ```
 
 Se o escopo `@ay-payments` não estiver disponível no npm, publique como `@undernouzen/ay-payments-sdk` ou outro escopo seu e mantenha os imports equivalentes.
@@ -15,7 +17,7 @@ Se o escopo `@ay-payments` não estiver disponível no npm, publique como `@unde
 ## Criar o client
 
 ```ts
-import { createAYPaymentsClient } from "@ay-payments/sdk";
+import { createAYPaymentsClient } from "@undernouzen/ay-payments-sdk";
 
 const ay = createAYPaymentsClient({
   baseUrl: "https://aypayments.undernouzen.com.br",

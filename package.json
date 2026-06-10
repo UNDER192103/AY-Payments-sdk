@@ -1,6 +1,6 @@
 {
   "name": "@undernouzen/ay-payments-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "TypeScript SDK for AY Payments API integrations",
   "type": "module",
   "main": "./dist/index.js",
@@ -31,7 +31,7 @@
   "bugs": {
     "url": "https://github.com/UNDER192103/AY-Payments-sdk/issues"
   },
-  "homepage": "https://github.com/UNDER192103/AY-Payments-sdk#readme",
+  "homepage": "https://aypayments.undernouzen.com.br/docs/",
   "author": "Under Nouzen",
   "license": "MIT",
   "keywords": [
