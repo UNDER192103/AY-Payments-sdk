@@ -1,5 +1,5 @@
 {
-  "name": "@ay-payments/sdk",
+  "name": "@undernouzen/ay-payments-sdk",
   "version": "1.0.1",
   "description": "TypeScript SDK for AY Payments API integrations",
   "type": "module",
