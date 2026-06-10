@@ -1,0 +1,72 @@
+{
+  "name": "@ay-payments/sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for AY Payments API integrations",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types.js",
+      "types": "./dist/types.d.ts"
+    },
+    "./client": {
+      "import": "./dist/client.js",
+      "types": "./dist/client.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UNDER192103/AY-Payments.git",
+    "directory": "NPMLibrary"
+  },
+  "bugs": {
+    "url": "https://github.com/UNDER192103/AY-Payments/issues"
+  },
+  "homepage": "https://github.com/UNDER192103/AY-Payments#readme",
+  "author": "Under Nouzen",
+  "license": "MIT",
+  "keywords": [
+    "payments",
+    "payment-gateway",
+    "stripe",
+    "mercadopago",
+    "ayp",
+    "ay-payments",
+    "sdk",
+    "typescript",
+    "javascript",
+    "api-client",
+    "checkout",
+    "billing"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
