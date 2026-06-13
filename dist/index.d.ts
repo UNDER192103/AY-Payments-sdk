@@ -4,5 +4,5 @@
  */
 export { AYPaymentsClient, createAYPaymentsClient } from './client.js';
 export * from './types.js';
-export declare const SDK_VERSION = "1.0.0";
+export declare const SDK_VERSION = "1.1.4";
 //# sourceMappingURL=index.d.ts.map
