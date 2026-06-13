@@ -84,12 +84,32 @@ export type AyPaymentsCalculateCheckoutPayload = Omit<AyPaymentsCheckoutPayloadF
 export interface AyPaymentsCheckoutSummary {
     subtotal: number;
     feesTotal: number;
+    customerFeesTotal?: number;
+    sellerFeesTotal?: number;
     commissionTotal: number;
+    customerCommissionTotal?: number;
+    sellerCommissionTotal?: number;
+    commissions?: AyPaymentsCheckoutCommission[];
     sellerNetTotal: number;
     discountTotal?: number;
     amount: number;
     currency: string;
     itemCount: number;
+}
+export interface AyPaymentsCheckoutCommission {
+    id: string;
+    name: string;
+    description?: string;
+    kind: "percentage" | "fixed";
+    type: "percentage" | "fixed";
+    value: number;
+    payer: "customer" | "seller";
+    baseAmount: number;
+    appliedAmount: number;
+    commissionBase: "before_discount" | "after_discount";
+    itemId?: string;
+    productId?: string;
+    itemName?: string;
 }
 export interface AyPaymentsCheckoutCalculationResponse {
     summary: AyPaymentsCheckoutSummary;
