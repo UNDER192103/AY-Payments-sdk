@@ -5,6 +5,7 @@ export * from "./modules/auth.types.js";
 export * from "./modules/profile.types.js";
 export * from "./modules/projects.types.js";
 export * from "./modules/products.types.js";
+export * from "./modules/coupons.types.js";
 export * from "./modules/checkouts.types.js";
 export * from "./modules/orders.types.js";
 export * from "./modules/customers.types.js";

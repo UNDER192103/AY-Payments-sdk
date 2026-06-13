@@ -1,5 +1,5 @@
 import type { AyPaymentsPagination, AyPaymentsRecord, AyPaymentsStatus } from "../core.js";
-import type { AyPaymentsCommissionRule, AyPaymentsProject, AyPaymentsProjectCommission, AyPaymentsProjectConnection } from "../models.js";
+import type { AyPaymentsCommissionRule, AyPaymentsMediaGalleryItem, AyPaymentsProject, AyPaymentsProjectCommission, AyPaymentsProjectConnection } from "../models.js";
 import type { AyPaymentsProvider } from "../core.js";
 export interface AyPaymentsCreateProjectPayloadMin {
     externalId: string;
@@ -13,6 +13,7 @@ export interface AyPaymentsCreateProjectPayloadFull extends AyPaymentsCreateProj
     webhookSecret?: string;
     webhook_secret?: string;
     metadata?: AyPaymentsRecord;
+    mediaGallery?: AyPaymentsMediaGalleryItem[];
 }
 export type AyPaymentsCreateProjectPayload = AyPaymentsCreateProjectPayloadMin | AyPaymentsCreateProjectPayloadFull;
 export type AyPaymentsUpdateProjectPayload = Partial<AyPaymentsCreateProjectPayloadMin> & Partial<AyPaymentsCreateProjectPayloadFull>;

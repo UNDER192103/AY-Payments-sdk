@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import type { AyPaymentsAdmin, AyPaymentsAdminsResponse, AyPaymentsApiResult, AyPaymentsApiKeyResponse, AyPaymentsApiKeysResponse, AyPaymentsAuthAdminResponse, AyPaymentsAuthCustomerResponse, AyPaymentsAuthTenantResponse, AyPaymentsCalculateCheckoutPayload, AyPaymentsCheckoutCalculationResponse, AyPaymentsCheckoutPayload, AyPaymentsClientOptions, AyPaymentsConnectionResponse, AyPaymentsCreateAdminPayload, AyPaymentsCreateApiKeyPayload, AyPaymentsCreateApiKeyResponse, AyPaymentsCreateCheckoutResponse, AyPaymentsCreateConnectionPayload, AyPaymentsCreateCustomerPayload, AyPaymentsCustomerRegisterPayload, AyPaymentsCreateManualOrderPayload, AyPaymentsCreateProductPayload, AyPaymentsCreateProjectPayload, AyPaymentsCreateProjectResponse, AyPaymentsCreateTenantPayload, AyPaymentsCustomerResponse, AyPaymentsCustomersResponse, AyPaymentsDeleteResponse, AyPaymentsLogsResponse, AyPaymentsLoginPayload, AyPaymentsOAuthPayload, AyPaymentsOAuthResponse, AyPaymentsOrderResponse, AyPaymentsOrdersResponse, AyPaymentsOverviewResponse, AyPaymentsPaginationQuery, AyPaymentsPlatformCommissionResponse, AyPaymentsProductResponse, AyPaymentsProductsResponse, AyPaymentsProfileOrdersResponse, AyPaymentsProjectCommissionResponse, AyPaymentsProjectAccountsResponse, AyPaymentsProjectListResponse, AyPaymentsProjectResponse, AyPaymentsQuery, AyPaymentsTenant, AyPaymentsTenantRegisterPayload, AyPaymentsTenantsResponse, AyPaymentsUpdateCommissionPayload, AyPaymentsUpdateConnectionPayload, AyPaymentsUpdateProductPayload, AyPaymentsUpdateProjectCommissionPayload, AyPaymentsUpdateProjectPayload } from "./types.js";
+import type { AyPaymentsAdmin, AyPaymentsAdminsResponse, AyPaymentsApiResult, AyPaymentsApiKeyResponse, AyPaymentsApiKeysResponse, AyPaymentsAuthAdminResponse, AyPaymentsAuthCustomerResponse, AyPaymentsAuthTenantResponse, AyPaymentsCalculateCheckoutPayload, AyPaymentsCheckoutCalculationResponse, AyPaymentsCheckoutPayload, AyPaymentsClientOptions, AyPaymentsConnectionResponse, AyPaymentsCreateAdminPayload, AyPaymentsCreateApiKeyPayload, AyPaymentsCreateApiKeyResponse, AyPaymentsCreateCheckoutResponse, AyPaymentsCreateCouponPayload, AyPaymentsCreateConnectionPayload, AyPaymentsCreateCustomerPayload, AyPaymentsCustomerRegisterPayload, AyPaymentsCreateManualOrderPayload, AyPaymentsCreateProductPayload, AyPaymentsCreateProjectPayload, AyPaymentsCreateProjectResponse, AyPaymentsCreateTenantPayload, AyPaymentsCustomerResponse, AyPaymentsCustomersResponse, AyPaymentsDeleteResponse, AyPaymentsLogsResponse, AyPaymentsLoginPayload, AyPaymentsOAuthPayload, AyPaymentsOAuthResponse, AyPaymentsOrderResponse, AyPaymentsOrdersResponse, AyPaymentsOverviewResponse, AyPaymentsPaginationQuery, AyPaymentsPlatformCommissionResponse, AyPaymentsProductResponse, AyPaymentsProductsResponse, AyPaymentsCouponQueryInput, AyPaymentsCouponResponse, AyPaymentsCouponsResponse, AyPaymentsProfileOrdersResponse, AyPaymentsProjectCommissionResponse, AyPaymentsProjectAccountsResponse, AyPaymentsProjectListResponse, AyPaymentsProjectResponse, AyPaymentsQuery, AyPaymentsTenant, AyPaymentsTenantRegisterPayload, AyPaymentsTenantsResponse, AyPaymentsUpdateCommissionPayload, AyPaymentsUpdateConnectionPayload, AyPaymentsUpdateCouponPayload, AyPaymentsUpdateProductPayload, AyPaymentsUpdateProjectCommissionPayload, AyPaymentsUpdateProjectPayload } from "./types.js";
 export declare class AYPaymentsClient {
     readonly api: AxiosInstance;
     readonly axios: AxiosInstance;
@@ -119,6 +119,14 @@ export declare class AYPaymentsClient {
             }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
             delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
             deleteGlobal: (productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+        };
+        coupons: {
+            list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCouponsResponse>>;
+            query: (query: AyPaymentsCouponQueryInput, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCouponsResponse>>;
+            create: (payload: AyPaymentsCreateCouponPayload) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+            get: (couponId: string) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+            update: (couponId: string, payload: AyPaymentsUpdateCouponPayload) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+            delete: (couponId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         };
         checkouts: {
             calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCheckoutCalculationResponse>>;
@@ -291,6 +299,14 @@ export declare class AYPaymentsClient {
         }) => Promise<AyPaymentsApiResult<AyPaymentsProductResponse>>;
         delete: (projectIdOrExternalId: string, productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
         deleteGlobal: (productId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
+    };
+    coupons: {
+        list: (pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCouponsResponse>>;
+        query: (query: AyPaymentsCouponQueryInput, pagination?: AyPaymentsPaginationQuery) => Promise<AyPaymentsApiResult<AyPaymentsCouponsResponse>>;
+        create: (payload: AyPaymentsCreateCouponPayload) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+        get: (couponId: string) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+        update: (couponId: string, payload: AyPaymentsUpdateCouponPayload) => Promise<AyPaymentsApiResult<AyPaymentsCouponResponse>>;
+        delete: (couponId: string) => Promise<AyPaymentsApiResult<AyPaymentsDeleteResponse>>;
     };
     checkouts: {
         calculate: (payload: AyPaymentsCalculateCheckoutPayload) => Promise<AyPaymentsApiResult<AyPaymentsCheckoutCalculationResponse>>;

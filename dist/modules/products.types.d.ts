@@ -1,5 +1,5 @@
 import type { AyPaymentsPagination, AyPaymentsRecord, AyPaymentsStatus } from "../core.js";
-import type { AyPaymentsFee, AyPaymentsProduct } from "../models.js";
+import type { AyPaymentsFee, AyPaymentsMediaGalleryItem, AyPaymentsProduct } from "../models.js";
 export interface AyPaymentsCreateProductPayloadMin {
     connectedAccountId: string;
     name: string;
@@ -13,8 +13,10 @@ export interface AyPaymentsCreateProductPayloadFull extends AyPaymentsCreateProd
     webhook_url?: string;
     webhookSecret?: string;
     webhook_secret?: string;
+    couponMode?: "none" | "single" | "multiple";
     status?: AyPaymentsStatus;
     metadata?: AyPaymentsRecord;
+    mediaGallery?: AyPaymentsMediaGalleryItem[];
 }
 export type AyPaymentsCreateProductPayload = AyPaymentsCreateProductPayloadMin | AyPaymentsCreateProductPayloadFull;
 export type AyPaymentsUpdateProductPayload = Partial<AyPaymentsCreateProductPayloadMin> & Partial<AyPaymentsCreateProductPayloadFull>;

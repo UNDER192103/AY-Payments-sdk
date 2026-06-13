@@ -19,6 +19,7 @@ import type {
   AyPaymentsCreateApiKeyPayload,
   AyPaymentsCreateApiKeyResponse,
   AyPaymentsCreateCheckoutResponse,
+  AyPaymentsCreateCouponPayload,
   AyPaymentsCreateConnectionPayload,
   AyPaymentsCreateCustomerPayload,
   AyPaymentsCustomerRegisterPayload,
@@ -41,6 +42,9 @@ import type {
   AyPaymentsPlatformCommissionResponse,
   AyPaymentsProductResponse,
   AyPaymentsProductsResponse,
+  AyPaymentsCouponQueryInput,
+  AyPaymentsCouponResponse,
+  AyPaymentsCouponsResponse,
   AyPaymentsProfileOrdersResponse,
   AyPaymentsProjectCommissionResponse,
   AyPaymentsProjectAccountsResponse,
@@ -52,6 +56,7 @@ import type {
   AyPaymentsTenantsResponse,
   AyPaymentsUpdateCommissionPayload,
   AyPaymentsUpdateConnectionPayload,
+  AyPaymentsUpdateCouponPayload,
   AyPaymentsUpdateProductPayload,
   AyPaymentsUpdateProjectCommissionPayload,
   AyPaymentsUpdateProjectPayload,
@@ -266,6 +271,19 @@ export class AYPaymentsClient {
       deleteGlobal: (productId: string) => this.delete<AyPaymentsDeleteResponse>(`/products/${productId}`),
     },
 
+    coupons: {
+      list: (pagination?: AyPaymentsPaginationQuery) =>
+        this.get<AyPaymentsCouponsResponse>("/coupons", { params: pagination }),
+      query: (query: AyPaymentsCouponQueryInput, pagination?: AyPaymentsPaginationQuery) =>
+        this.post<AyPaymentsCouponsResponse>("/coupons/query", withQuery(query, pagination)),
+      create: (payload: AyPaymentsCreateCouponPayload) =>
+        this.post<AyPaymentsCouponResponse>("/coupons", payload),
+      get: (couponId: string) => this.get<AyPaymentsCouponResponse>(`/coupons/${couponId}`),
+      update: (couponId: string, payload: AyPaymentsUpdateCouponPayload) =>
+        this.put<AyPaymentsCouponResponse>(`/coupons/${couponId}`, payload),
+      delete: (couponId: string) => this.delete<AyPaymentsDeleteResponse>(`/coupons/${couponId}`),
+    },
+
     checkouts: {
       calculate: (payload: AyPaymentsCalculateCheckoutPayload) =>
         this.post<AyPaymentsCheckoutCalculationResponse>("/checkouts/calculate", payload),
@@ -353,6 +371,7 @@ export class AYPaymentsClient {
   profile = this.v1.profile;
   projects = this.v1.projects;
   products = this.v1.products;
+  coupons = this.v1.coupons;
   checkouts = this.v1.checkouts;
   orders = this.v1.orders;
   customers = this.v1.customers;

@@ -82,6 +82,8 @@ export interface AyPaymentsCheckoutPayloadFull extends AyPaymentsCheckoutPayload
   clientSecret?: string;
   client_secret?: string;
   stripeClientSecret?: string;
+  couponCode?: string;
+  couponCodes?: string[];
   metadata?: AyPaymentsRecord;
 }
 
@@ -99,6 +101,7 @@ export interface AyPaymentsCheckoutSummary {
   feesTotal: number;
   commissionTotal: number;
   sellerNetTotal: number;
+  discountTotal?: number;
   amount: number;
   currency: string;
   itemCount: number;

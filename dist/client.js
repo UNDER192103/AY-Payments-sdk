@@ -161,6 +161,14 @@ export class AYPaymentsClient {
             delete: (projectIdOrExternalId, productId) => this.delete(`/projects/${projectIdOrExternalId}/products/${productId}`),
             deleteGlobal: (productId) => this.delete(`/products/${productId}`),
         },
+        coupons: {
+            list: (pagination) => this.get("/coupons", { params: pagination }),
+            query: (query, pagination) => this.post("/coupons/query", withQuery(query, pagination)),
+            create: (payload) => this.post("/coupons", payload),
+            get: (couponId) => this.get(`/coupons/${couponId}`),
+            update: (couponId, payload) => this.put(`/coupons/${couponId}`, payload),
+            delete: (couponId) => this.delete(`/coupons/${couponId}`),
+        },
         checkouts: {
             calculate: (payload) => this.post("/checkouts/calculate", payload),
             create: (payload) => this.post("/checkouts", payload),
@@ -216,6 +224,7 @@ export class AYPaymentsClient {
     profile = this.v1.profile;
     projects = this.v1.projects;
     products = this.v1.products;
+    coupons = this.v1.coupons;
     checkouts = this.v1.checkouts;
     orders = this.v1.orders;
     customers = this.v1.customers;

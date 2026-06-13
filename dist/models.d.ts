@@ -1,15 +1,20 @@
 import type { AyPaymentsDateValue, AyPaymentsFeeKind, AyPaymentsFeePayer, AyPaymentsOrderPaymentMethod, AyPaymentsOrderStatus, AyPaymentsProvider, AyPaymentsRecord, AyPaymentsStatus } from "./core.js";
 export interface AyPaymentsPermissionSet {
+    read?: boolean;
     list?: boolean;
     create?: boolean;
+    update?: boolean;
     edit?: boolean;
     delete?: boolean;
+    validate?: boolean;
+    apply?: boolean;
 }
 export interface AyPaymentsPermissions {
     createAdmins?: boolean;
     manageApiKeys?: boolean;
     projects?: AyPaymentsPermissionSet;
     products?: AyPaymentsPermissionSet;
+    coupons?: AyPaymentsPermissionSet;
     orders?: AyPaymentsPermissionSet;
     clients?: AyPaymentsPermissionSet;
     customers?: AyPaymentsPermissionSet;
@@ -75,6 +80,15 @@ export interface AyPaymentsFee {
 export interface AyPaymentsCommissionRule extends AyPaymentsFee {
     id: string;
 }
+export type AyPaymentsMediaGalleryItemType = "image" | "video" | "link" | "file" | "other";
+export interface AyPaymentsMediaGalleryItem {
+    type: AyPaymentsMediaGalleryItemType;
+    url: string;
+    title?: string;
+    description?: string;
+    position?: number;
+    metadata?: AyPaymentsRecord;
+}
 export interface AyPaymentsProjectCommission {
     mode: "inherit" | "override";
     rules: AyPaymentsCommissionRule[];
@@ -106,6 +120,7 @@ export interface AyPaymentsProject {
     connectedAccounts: AyPaymentsProjectConnection[];
     commission?: AyPaymentsProjectCommission;
     metadata?: AyPaymentsRecord;
+    mediaGallery?: AyPaymentsMediaGalleryItem[];
     createdDate: AyPaymentsDateValue;
     updatedDate?: AyPaymentsDateValue;
 }
@@ -121,10 +136,57 @@ export interface AyPaymentsProduct {
     webhookUrl?: string;
     value: number;
     fees: AyPaymentsFee[];
+    couponMode?: "none" | "single" | "multiple";
     status?: "active" | "inactive" | "blocked";
     metadata?: AyPaymentsRecord;
+    mediaGallery?: AyPaymentsMediaGalleryItem[];
     createdDate: AyPaymentsDateValue;
     updatedDate?: AyPaymentsDateValue;
+}
+export type AyPaymentsCouponDiscountType = "percentage" | "fixed";
+export type AyPaymentsCouponStatus = "active" | "inactive" | "expired" | "deleted" | "blocked";
+export interface AyPaymentsCoupon {
+    id: string;
+    tenantId?: string | null;
+    productId?: string | null;
+    icon?: string;
+    name: string;
+    code: string;
+    description?: string;
+    metadata?: AyPaymentsRecord;
+    mediaGallery?: AyPaymentsMediaGalleryItem[];
+    discountType: AyPaymentsCouponDiscountType;
+    discountValue: number;
+    minimumAmount?: number;
+    maximumDiscountAmount?: number;
+    status?: AyPaymentsCouponStatus;
+    startsAt?: AyPaymentsDateValue;
+    expiresAt?: AyPaymentsDateValue;
+    maxUses?: number;
+    usedCount: number;
+    scopeKey: string;
+    createdDate: AyPaymentsDateValue;
+    updatedDate?: AyPaymentsDateValue;
+}
+export interface AyPaymentsCouponSnapshotItem {
+    id: string;
+    code: string;
+    name: string;
+    discountType: AyPaymentsCouponDiscountType;
+    discountValue: number;
+    appliedDiscount: number;
+    itemDiscounts?: AyPaymentsCouponSnapshotItemDiscount[];
+}
+export interface AyPaymentsCouponSnapshotItemDiscount {
+    itemId: string;
+    productId?: string;
+    name: string;
+    appliedDiscount: number;
+}
+export interface AyPaymentsCouponSnapshot {
+    coupons: AyPaymentsCouponSnapshotItem[];
+    discountTotal: number;
+    itemDiscounts?: AyPaymentsCouponSnapshotItemDiscount[];
 }
 export type AyPaymentsProductMin = Pick<AyPaymentsProduct, "id" | "projectId" | "connectedAccountId" | "name" | "value" | "fees" | "status" | "metadata" | "createdDate">;
 export type AyPaymentsProductFull = AyPaymentsProduct;
@@ -203,8 +265,10 @@ export interface AyPaymentsOrder {
     subtotal: number;
     feesTotal: number;
     commissionTotal: number;
+    discountTotal?: number;
     sellerNetTotal: number;
     customer?: AyPaymentsCheckoutCustomer;
+    couponSnapshot?: AyPaymentsCouponSnapshot;
     metadata?: AyPaymentsRecord;
     providerPayload?: AyPaymentsRecord;
     webhookDelivery?: AyPaymentsOrderWebhookDelivery;

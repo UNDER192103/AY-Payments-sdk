@@ -1,6 +1,7 @@
 import type { AyPaymentsPagination, AyPaymentsRecord, AyPaymentsStatus } from "../core.js";
 import type {
   AyPaymentsCommissionRule,
+  AyPaymentsMediaGalleryItem,
   AyPaymentsProject,
   AyPaymentsProjectCommission,
   AyPaymentsProjectConnection,
@@ -20,6 +21,7 @@ export interface AyPaymentsCreateProjectPayloadFull extends AyPaymentsCreateProj
   webhookSecret?: string;
   webhook_secret?: string;
   metadata?: AyPaymentsRecord;
+  mediaGallery?: AyPaymentsMediaGalleryItem[];
 }
 
 export type AyPaymentsCreateProjectPayload =
